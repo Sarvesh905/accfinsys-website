@@ -1,0 +1,1124 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>AccFinSys Consulting Services | We are part of your journey</title>
+    
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Poppins:wght@400;500;600;700;800&family=Caveat:wght@600;700&family=Playfair+Display:wght@600;700&display=swap" rel="stylesheet">
+    
+    <!-- Babel Standalone for JSX compilation in browser -->
+    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+
+    <!-- Tailwind Config -->
+    <script>
+      tailwind.config = {
+        theme: {
+          extend: {
+            fontFamily: {
+              sans: ['Inter', 'sans-serif'],
+              display: ['Poppins', 'sans-serif'],
+              handwriting: ['Caveat', 'cursive'],
+              serif: ['Playfair Display', 'serif'],
+            },
+            colors: {
+              navy: '#0A2463',
+              teal: '#3BCEAC',
+              electric: '#00D4FF',
+              purple: '#6C5CE7',
+              dark: '#1A1A1A',
+              light: '#F5F7FA',
+            }
+          }
+        }
+      }
+    </script>
+    
+    <!-- Global Styles -->
+    <style>
+      html {
+        scroll-behavior: smooth;
+        scroll-padding-top: 100px;
+      }
+      body {
+        font-family: 'Inter', sans-serif;
+        color: #1A1A1A;
+        overflow-x: hidden;
+      }
+      h1, h2, h3, h4, h5, h6 {
+        font-family: 'Poppins', sans-serif;
+      }
+    </style>
+
+    <!-- Import Map for React and Libraries -->
+    <script type="importmap">
+    {
+      "imports": {
+        "react": "https://esm.sh/react@18.2.0",
+        "react-dom/client": "https://esm.sh/react-dom@18.2.0/client",
+        "lucide-react": "https://esm.sh/lucide-react@0.292.0",
+        "framer-motion": "https://esm.sh/framer-motion@10.16.4"
+      }
+    }
+    </script>
+  </head>
+  <body>
+    <div id="root"></div>
+
+    <!-- Main Application Script -->
+    <script type="text/babel" data-type="module">
+      import React, { useState, useEffect } from 'react';
+      import ReactDOM from 'react-dom/client';
+      import { motion } from 'framer-motion';
+      import { 
+        Menu, X, ArrowRight, DollarSign, Users, Globe2, Zap,
+        Calculator, Settings, TrendingUp, BarChart3, Briefcase, ShieldCheck,
+        Rocket, ShoppingCart, Factory, Laptop,
+        Globe, Cpu, Clock, Shield,
+        Linkedin, Mail, MapPin, Phone,
+        Award, Mic, User, Upload, Trash2
+      } from 'lucide-react';
+
+      // --- TYPES ---
+      // (TypeScript interfaces are normally stripped by Babel, but definitions help structure)
+      
+      // --- COMPONENTS ---
+
+      // 1. Header Component
+      const LogoIcon = ({ color }) => (
+        <svg width="50" height="50" viewBox="0 0 100 100" fill="none" stroke={color} strokeWidth="4" strokeLinecap="round" strokeLinejoin="round">
+           <path d="M12 25 V75 L18 85 L24 75 V25 Z" />
+           <path d="M35 15 H85 V85 H75" opacity="0.6" />
+           <rect x="28" y="20" width="55" height="70" rx="2" fill="none" />
+           <circle cx="55" cy="45" r="12" />
+           <path d="M55 45 L55 33" />
+           <path d="M55 45 L65 50" />
+           <path d="M40 65 H55" />
+           <rect x="62" y="60" width="28" height="35" rx="4" fill="none" />
+           <path d="M68 68 H84" />
+           <circle cx="70" cy="78" r="2" fill={color} stroke="none" />
+           <circle cx="76" cy="78" r="2" fill={color} stroke="none" />
+           <circle cx="82" cy="78" r="2" fill={color} stroke="none" />
+           <circle cx="70" cy="86" r="2" fill={color} stroke="none" />
+           <circle cx="76" cy="86" r="2" fill={color} stroke="none" />
+           <circle cx="82" cy="86" r="2" fill={color} stroke="none" />
+        </svg>
+      );
+
+      const navLinks = [
+        { name: 'Services', href: '#services' },
+        { name: 'Why AccFinSys?', href: '#why-accfinsys' },
+        { name: 'Industries', href: '#industries' },
+        { name: 'About', href: '#about' },
+      ];
+
+      const Header = () => {
+        const [isScrolled, setIsScrolled] = useState(false);
+        const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+
+        useEffect(() => {
+          const handleScroll = () => {
+            setIsScrolled(window.scrollY > 50);
+          };
+          window.addEventListener('scroll', handleScroll);
+          return () => window.removeEventListener('scroll', handleScroll);
+        }, []);
+
+        const handleNavClick = (e, href) => {
+          e.preventDefault();
+          const targetId = href.replace('#', '');
+          const element = document.getElementById(targetId);
+          
+          if (element) {
+            const headerOffset = 100;
+            const elementPosition = element.getBoundingClientRect().top;
+            const offsetPosition = elementPosition + window.scrollY - headerOffset;
+
+            window.scrollTo({
+              top: offsetPosition,
+              behavior: 'smooth'
+            });
+            
+            setIsMobileMenuOpen(false);
+          } else {
+              window.location.hash = href;
+              setIsMobileMenuOpen(false);
+          }
+        };
+
+        const navLinkColor = isScrolled ? 'text-navy hover:text-teal-600' : 'text-white/90 hover:text-teal-300';
+        const ctaButtonClass = 'bg-teal hover:bg-teal/90 text-navy shadow-[0_0_10px_rgba(59,206,172,0.3)] hover:shadow-[0_0_20px_rgba(59,206,172,0.5)]';
+        const mobileMenuButtonColor = isScrolled ? 'text-navy' : 'text-white';
+
+        return (
+          <header
+            className={`fixed w-full z-50 transition-all duration-300 ${
+              isScrolled ? 'bg-white/95 backdrop-blur-md shadow-md py-3' : 'bg-transparent py-5'
+            }`}
+          >
+            <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex justify-between items-center">
+              <div className="flex items-center gap-4 bg-gray-100 px-5 py-3 rounded-xl shadow-sm border border-gray-200/50">
+                <LogoIcon color="#0A2463" />
+                <div className="flex flex-col items-start justify-center">
+                  <span className="text-3xl font-serif font-bold leading-none tracking-tight text-navy">
+                    AccFinSys
+                  </span>
+                  <div className="relative mt-1">
+                      <svg width="100%" height="8" viewBox="0 0 120 10" preserveAspectRatio="none" className="absolute -top-1 left-0 w-full opacity-70">
+                         <path d="M0 5 Q 60 0 120 5" fill="none" stroke="#0A2463" strokeWidth="2" />
+                      </svg>
+                      <span className="text-xs font-handwriting font-bold tracking-widest uppercase text-emerald-600 whitespace-nowrap">
+                      We are part of your journey
+                      </span>
+                  </div>
+                </div>
+              </div>
+
+              <nav className="hidden md:flex items-center space-x-8">
+                {navLinks.map((item) => (
+                  <a
+                    key={item.name}
+                    href={item.href}
+                    onClick={(e) => handleNavClick(e, item.href)}
+                    className={`text-lg font-medium transition-colors cursor-pointer hover:font-bold ${navLinkColor}`}
+                  >
+                    {item.name}
+                  </a>
+                ))}
+                <a 
+                  href="#contact"
+                  onClick={(e) => handleNavClick(e, '#contact')}
+                  className={`${ctaButtonClass} px-7 py-3 text-lg rounded-full font-semibold transition-all duration-300 inline-block cursor-pointer hover:scale-105`}
+                >
+                  Contact
+                </a>
+              </nav>
+
+              <button
+                className="md:hidden p-2 rounded-md"
+                onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
+              >
+                {isMobileMenuOpen ? (
+                  <X className={mobileMenuButtonColor} />
+                ) : (
+                  <Menu className={mobileMenuButtonColor} />
+                )}
+              </button>
+            </div>
+
+            {isMobileMenuOpen && (
+              <div className="md:hidden absolute top-full left-0 w-full bg-white shadow-xl py-4 px-4 flex flex-col space-y-4">
+                {navLinks.map((item) => (
+                  <a
+                    key={item.name}
+                    href={item.href}
+                    onClick={(e) => handleNavClick(e, item.href)}
+                    className="text-navy font-medium py-2 border-b border-gray-100 cursor-pointer text-lg"
+                  >
+                    {item.name}
+                  </a>
+                ))}
+                <a
+                  href="#contact"
+                  onClick={(e) => handleNavClick(e, '#contact')}
+                  className="bg-teal text-navy px-6 py-3 rounded-lg font-semibold w-full text-center block cursor-pointer text-lg"
+                >
+                  Contact
+                </a>
+              </div>
+            )}
+          </header>
+        );
+      };
+
+      // 2. Hero Component
+      const Hero = () => {
+        const scrollToSection = (e, id) => {
+          e.preventDefault();
+          const element = document.getElementById(id);
+          if (element) {
+            const headerOffset = 100;
+            const elementPosition = element.getBoundingClientRect().top;
+            const offsetPosition = elementPosition + window.scrollY - headerOffset;
+
+            window.scrollTo({
+              top: offsetPosition,
+              behavior: 'smooth'
+            });
+          }
+        };
+
+        return (
+          <section className="relative min-h-screen flex items-center justify-center overflow-hidden pt-24 md:pt-32">
+            <div className="absolute inset-0 z-0">
+              <img
+                src="https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?ixlib=rb-4.0.3&auto=format&fit=crop&w=2070&q=80"
+                alt="Modern financial district skyline"
+                className="w-full h-full object-cover"
+              />
+              <div className="absolute inset-0 bg-gradient-to-br from-[#051025]/70 via-[#0A2463]/60 to-black/40 mix-blend-multiply"></div>
+              <div className="absolute inset-0 bg-navy/20"></div>
+            </div>
+
+            <div className="absolute inset-0 z-0 overflow-hidden pointer-events-none">
+              <motion.div
+                  animate={{ y: [0, -20, 0], opacity: [0.1, 0.2, 0.1] }}
+                  transition={{ duration: 5, repeat: Infinity, ease: "easeInOut" }}
+                  className="absolute top-1/4 left-1/4 w-64 h-64 bg-teal-500 blur-[100px] rounded-full mix-blend-screen opacity-20"
+              />
+               <motion.div
+                  animate={{ y: [0, 20, 0], opacity: [0.1, 0.2, 0.1] }}
+                  transition={{ duration: 7, repeat: Infinity, ease: "easeInOut" }}
+                  className="absolute bottom-1/3 right-1/4 w-96 h-96 bg-purple blur-[120px] rounded-full mix-blend-screen opacity-20"
+              />
+            </div>
+
+            <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 text-center">
+              <motion.div
+                initial={{ opacity: 0, y: 30 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.8 }}
+              >
+                <h1 className="font-bold font-display leading-tight mb-6 tracking-tight">
+                  <span className="block text-2xl md:text-4xl lg:text-5xl text-white mb-3 drop-shadow-lg">
+                    Global Financial Excellence:
+                  </span>
+                  <span className="block text-xl md:text-3xl lg:text-4xl text-emerald-400 font-semibold leading-normal drop-shadow-md">
+                    Empowering Business growth from Inception to Success with <br /> Automation & AI
+                  </span>
+                </h1>
+              </motion.div>
+
+              <motion.p
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.8, delay: 0.2 }}
+                className="text-xl md:text-2xl text-blue-50 max-w-5xl mx-auto mb-10 font-medium leading-relaxed drop-shadow-sm"
+              >
+                Your Global Partner for Seamless Accounting, Automation, and Strategic CFO Leadership.
+                Bridging the gap between current to future growth aspirations.
+              </motion.p>
+
+              <motion.div
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.8, delay: 0.4 }}
+                className="flex flex-col sm:flex-row items-center justify-center gap-4 mb-16"
+              >
+                <a 
+                  href="#contact"
+                  onClick={(e) => scrollToSection(e, 'contact')}
+                  className="group bg-teal hover:bg-teal/90 text-navy font-bold text-xl px-9 py-5 rounded-full shadow-[0_0_20px_rgba(59,206,172,0.3)] hover:shadow-[0_0_30px_rgba(59,206,172,0.5)] transition-all duration-300 transform hover:scale-105 flex items-center gap-2 cursor-pointer"
+                >
+                  Schedule Free Consultation
+                  <ArrowRight className="w-6 h-6 group-hover:translate-x-1 transition-transform" />
+                </a>
+                <a 
+                  href="#services"
+                  onClick={(e) => scrollToSection(e, 'services')}
+                  className="group bg-blue-600 hover:bg-blue-700 text-white font-semibold text-xl px-9 py-5 rounded-full transition-all duration-300 shadow-lg inline-block cursor-pointer backdrop-blur-sm"
+                >
+                  Explore Our Services
+                </a>
+              </motion.div>
+
+              <motion.div
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                transition={{ duration: 1, delay: 0.6 }}
+                className="flex flex-wrap justify-center gap-4 md:gap-8 text-base md:text-lg text-white font-medium"
+              >
+                <div className="flex items-center gap-2 px-5 py-3 bg-white/10 rounded-full backdrop-blur-md border border-white/10 shadow-sm hover:bg-white/20 transition-colors">
+                  <Globe2 className="w-5 h-5 text-emerald-400" />
+                  Global Support
+                </div>
+                <div className="flex items-center gap-2 px-5 py-3 bg-white/10 rounded-full backdrop-blur-md border border-white/10 shadow-sm hover:bg-white/20 transition-colors">
+                  <Zap className="w-5 h-5 text-emerald-400" />
+                  Flexibility
+                </div>
+                <div className="flex items-center gap-2 px-5 py-3 bg-white/10 rounded-full backdrop-blur-md border border-white/10 shadow-sm hover:bg-white/20 transition-colors">
+                  <DollarSign className="w-5 h-5 text-emerald-400" />
+                  Cost Effective
+                </div>
+                <div className="flex items-center gap-2 px-5 py-3 bg-white/10 rounded-full backdrop-blur-md border border-white/10 shadow-sm hover:bg-white/20 transition-colors">
+                  <Users className="w-5 h-5 text-emerald-400" />
+                  10+ Clients in &lt; 1 Year
+                </div>
+              </motion.div>
+            </div>
+          </section>
+        );
+      };
+
+      // 3. Stats Component
+      const Stats = () => {
+        return (
+          <section className="py-16 bg-white border-t-4 border-teal relative overflow-hidden">
+            <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+              <motion.div
+                  initial={{ opacity: 0, scale: 0.95 }}
+                  whileInView={{ opacity: 1, scale: 1 }}
+                  viewport={{ once: true }}
+                  transition={{ duration: 0.8 }}
+                  className="relative z-10"
+              >
+                   <h2 className="text-6xl md:text-8xl font-handwriting text-navy leading-tight">
+                      "We are part of your journey"
+                   </h2>
+                   <div className="mt-4 w-24 h-1 bg-gradient-to-r from-teal to-purple mx-auto rounded-full"></div>
+              </motion.div>
+              
+              <div className="absolute top-1/2 left-10 -translate-y-1/2 w-32 h-32 bg-teal/5 rounded-full blur-2xl"></div>
+              <div className="absolute top-1/2 right-10 -translate-y-1/2 w-32 h-32 bg-purple/5 rounded-full blur-2xl"></div>
+            </div>
+          </section>
+        );
+      };
+
+      // 4. Services Component
+      const servicesData = [
+        {
+          title: "Modern Accounting & Bookkeeping",
+          subtitle: "Go beyond the ledger. Get real-time financial clarity.",
+          icon: Calculator,
+          bullets: [
+            "Full-Cycle Bookkeeping",
+            "Transaction Excellence (Expense categorization & tracking)",
+            "Managing Multi-Currency entities"
+          ]
+        },
+        {
+          title: "ERP & Process Automation",
+          subtitle: "End the data debate—build once, believe in single source of truth",
+          icon: Settings,
+          bullets: [
+            "ERP - Xero, QuickBooks, Zoho, etc.,",
+            "AI-driven Workflows",
+            "Seamless App Integrations"
+          ]
+        },
+        {
+          title: "Strategic FP&A",
+          subtitle: "Predict the future by modelling it today.",
+          icon: TrendingUp,
+          bullets: [
+            "Budgeting and tracking Burn rates",
+            "Rolling Forecasts",
+            "Strategic Analytics - ROI & new market expansion"
+          ]
+        },
+        {
+          title: "MIS Reporting & Dashboards",
+          subtitle: "Data is useless without direction. We provide the compass.",
+          icon: BarChart3,
+          bullets: [
+            "Investor-Ready Board decks",
+            "Profitability Deep-Dives",
+            "KPI & Scorecard for the teams"
+          ]
+        },
+        {
+          title: "Fractional CFO Services",
+          subtitle: "C-Suite expertise without the full-time overhead.",
+          icon: Briefcase,
+          bullets: [
+            "Board-Level Guidance",
+            "Finance team restructure and succession planning",
+            "Startup to IPO Scalability"
+          ]
+        },
+        {
+          title: "Audit & Assurance Services",
+          subtitle: "Ensuring compliance, strengthening controls, and mitigating risk.",
+          icon: ShieldCheck,
+          bullets: [
+            "Statutory & Internal Audit Management",
+            "Due Diligence & Special Purpose Audits",
+            "Controls Redesign & Policy Documentation"
+          ]
+        }
+      ];
+
+      const Services = () => {
+        return (
+          <section id="services" className="py-20 md:py-32 bg-light relative overflow-hidden">
+            <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+              <div className="text-center mb-16">
+                <motion.h2 
+                  initial={{ opacity: 0, y: 20 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  viewport={{ once: true }}
+                  className="text-3xl md:text-4xl font-bold text-navy font-display mb-4 relative inline-block"
+                >
+                  Comprehensive Finance Solutions
+                  <div className="absolute -bottom-2 left-1/2 transform -translate-x-1/2 w-24 h-1 bg-teal rounded-full"></div>
+                </motion.h2>
+                <motion.p 
+                   initial={{ opacity: 0, y: 20 }}
+                   whileInView={{ opacity: 1, y: 0 }}
+                   viewport={{ once: true }}
+                   transition={{ delay: 0.1 }}
+                   className="text-xl text-gray-600 max-w-3xl mx-auto mt-4"
+                >
+                  We combine traditional financial expertise with modern technology to deliver results that matter.
+                </motion.p>
+              </div>
+
+              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                {servicesData.map((service, index) => (
+                  <motion.div
+                    key={index}
+                    initial={{ opacity: 0, y: 20 }}
+                    whileInView={{ opacity: 1, y: 0 }}
+                    viewport={{ once: true }}
+                    transition={{ delay: index * 0.1 }}
+                    className="group bg-white p-8 rounded-2xl shadow-sm hover:shadow-2xl transition-all duration-300 border border-teal hover:border-teal relative overflow-hidden"
+                  >
+                    <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-navy to-teal transform scale-x-0 group-hover:scale-x-100 transition-transform duration-300 origin-left"></div>
+                    
+                    <div className="w-14 h-14 bg-blue-50 rounded-xl flex items-center justify-center mb-6 group-hover:bg-teal/10 transition-colors">
+                      <service.icon className="w-7 h-7 text-navy group-hover:text-teal transition-colors" />
+                    </div>
+                    
+                    <h3 className="text-3xl font-bold text-navy mb-3 font-display">{service.title}</h3>
+                    <p className="text-gray-500 mb-6 text-lg leading-relaxed">{service.subtitle}</p>
+                    
+                    <ul className="space-y-3">
+                      {service.bullets.map((bullet, idx) => (
+                        <li key={idx} className="flex items-start text-lg text-gray-700">
+                          <span className="w-1.5 h-1.5 bg-teal rounded-full mt-2 mr-2 flex-shrink-0"></span>
+                          {bullet}
+                        </li>
+                      ))}
+                    </ul>
+                  </motion.div>
+                ))}
+              </div>
+            </div>
+          </section>
+        );
+      };
+
+      // 5. WhyChooseUs Component
+      const benefitsData = [
+        {
+          title: "Dual-Market Mastery (India & US)",
+          description: "Navigating the complexities of US GAAP and IndAS simultaneously is a challenge—we make it seamless. We ensure your books are audit-ready and compliant for both jurisdictions.",
+          icon: Globe
+        },
+        {
+          title: "Tech-Forward & AI-Integrated",
+          description: "We don't just 'do' accounting; we bring process improvements & automation into it. By leveraging AI and top-tier ERPs, we eliminate manual errors and provide real-time financial visibility.",
+          icon: Cpu
+        },
+        {
+          title: "The 24/7 Advantage",
+          description: "Our team works to leverage time zone differences to your advantage. While your US team sleeps, our Indian operations are processing transactions, ensuring your dashboards are ready by morning.",
+          icon: Clock
+        },
+        {
+          title: "From Seed to Scale",
+          description: "We aren't just service providers; we are your strategic partners. From setting up your first Chart of Accounts to preparing investor-ready board decks, we provide C-suite guidance.",
+          icon: TrendingUp
+        },
+        {
+          title: "Uncompromising Data Security",
+          description: "We treat your financial data like our own. With robust protocols and secured API integrations, we ensure that your sensitive information remains protected across all platforms and borders.",
+          icon: Shield
+        }
+      ];
+
+      const WhyChooseUs = () => {
+        return (
+          <section id="why-accfinsys" className="py-24 bg-gradient-to-br from-navy via-[#0f2c73] to-purple text-white overflow-hidden relative">
+            <div className="absolute top-0 right-0 -mr-20 -mt-20 w-96 h-96 bg-teal/10 rounded-full blur-3xl"></div>
+            <div className="absolute bottom-0 left-0 -ml-20 -mb-20 w-96 h-96 bg-purple/10 rounded-full blur-3xl"></div>
+
+            <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+              <motion.h2 
+                initial={{ opacity: 0, y: 20 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                className="text-3xl md:text-5xl font-bold text-center font-display mb-20"
+              >
+                Why Partner With Us?
+              </motion.h2>
+
+              <div className="space-y-12 md:space-y-24">
+                {benefitsData.map((benefit, index) => (
+                  <div 
+                    key={index}
+                    className={`flex flex-col md:flex-row items-center gap-8 md:gap-16 ${
+                      index % 2 === 1 ? 'md:flex-row-reverse' : ''
+                    }`}
+                  >
+                    <motion.div 
+                      initial={{ opacity: 0, x: index % 2 === 0 ? -50 : 50 }}
+                      whileInView={{ opacity: 1, x: 0 }}
+                      viewport={{ once: true }}
+                      transition={{ duration: 0.6 }}
+                      className="w-full md:w-1/2 flex justify-center"
+                    >
+                      <div className="relative group">
+                        <div className="absolute inset-0 bg-teal/20 rounded-full blur-xl group-hover:bg-teal/30 transition-all duration-500"></div>
+                        <div className="relative w-32 h-32 md:w-48 md:h-48 bg-white/10 backdrop-blur-md rounded-full border border-white/20 flex items-center justify-center shadow-2xl group-hover:scale-105 transition-transform duration-300">
+                          <benefit.icon className="w-12 h-12 md:w-20 md:h-20 text-teal" />
+                        </div>
+                        <div className="absolute top-0 left-1/2 -ml-2 w-4 h-4 bg-electric rounded-full shadow-[0_0_10px_#00D4FF] animate-pulse"></div>
+                      </div>
+                    </motion.div>
+
+                    <motion.div 
+                      initial={{ opacity: 0, x: index % 2 === 0 ? 50 : -50 }}
+                      whileInView={{ opacity: 1, x: 0 }}
+                      viewport={{ once: true }}
+                      transition={{ duration: 0.6 }}
+                      className="w-full md:w-1/2 text-center md:text-left"
+                    >
+                      <h3 className="text-2xl md:text-3xl font-bold mb-4 font-display text-white">{benefit.title}</h3>
+                      <p className="text-gray-300 text-lg leading-relaxed">
+                        {benefit.description}
+                      </p>
+                      <div className={`h-1 w-20 bg-teal mt-6 rounded-full ${index % 2 === 1 ? 'md:ml-auto md:mr-0' : ''} mx-auto md:mx-0`}></div>
+                    </motion.div>
+                  </div>
+                ))}
+              </div>
+            </div>
+          </section>
+        );
+      };
+
+      // 6. Industries Component
+      const industriesData = [
+        {
+          name: "Startups & MSMEs",
+          icon: Rocket,
+          services: ["Founder-friendly setups", "Burn-rate management", "Investor readiness"]
+        },
+        {
+          name: "E-Commerce & FMCG",
+          icon: ShoppingCart,
+          services: ["Product wise COGS Tracking", "Multi-channel reconciliation", "Inventory Management"]
+        },
+        {
+          name: "Manufacturing",
+          icon: Factory,
+          services: ["BOM Costing", "OH Allocation", "Inventory Valuation"]
+        },
+        {
+          name: "IT Industry - Products, Services, BPO, GCC",
+          icon: Laptop,
+          services: ["Project Profitability", "Utilization & Cost Tracking", "Revenue Management"]
+        }
+      ];
+
+      const Industries = () => {
+        return (
+          <section id="industries" className="py-20 bg-white">
+            <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+              <div className="text-center mb-16">
+                <motion.h2 
+                  initial={{ opacity: 0, y: 10 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  viewport={{ once: true }}
+                  className="text-3xl font-bold text-navy font-display mb-2"
+                >
+                  Industry-Specific Expertise
+                </motion.h2>
+                <div className="w-20 h-1 bg-teal mx-auto rounded-full"></div>
+              </div>
+
+              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+                {industriesData.map((item, index) => (
+                  <motion.div
+                    key={index}
+                    initial={{ opacity: 0, scale: 0.95 }}
+                    whileInView={{ opacity: 1, scale: 1 }}
+                    viewport={{ once: true }}
+                    transition={{ delay: index * 0.1 }}
+                    className="group bg-white p-6 rounded-2xl shadow-sm hover:shadow-2xl transition-all duration-300 border border-teal hover:border-teal relative overflow-hidden"
+                  >
+                    <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-navy to-teal transform scale-x-0 group-hover:scale-x-100 transition-transform duration-300 origin-left"></div>
+
+                    <div className="w-14 h-14 bg-blue-50 rounded-xl flex items-center justify-center mb-6 group-hover:bg-teal/10 transition-colors">
+                      <item.icon className="w-7 h-7 text-navy group-hover:text-teal transition-colors" />
+                    </div>
+                    
+                    <h3 className="text-3xl font-bold text-navy mb-3 font-display">{item.name}</h3>
+                    
+                    <ul className="space-y-3">
+                      {item.services.map((service, idx) => (
+                        <li key={idx} className="flex items-start text-lg text-gray-700">
+                          <span className="w-1.5 h-1.5 bg-teal rounded-full mt-2 mr-2 flex-shrink-0"></span>
+                          {service}
+                        </li>
+                      ))}
+                    </ul>
+                  </motion.div>
+                ))}
+              </div>
+            </div>
+          </section>
+        );
+      };
+
+      // 7. About Component
+      const About = () => {
+        const [imgSrc, setImgSrc] = useState(() => {
+          const saved = localStorage.getItem("accfinsys_founder_photo");
+          return saved || "SarveshPhoto.png";
+        });
+        
+        const [imgError, setImgError] = useState(false);
+
+        useEffect(() => {
+          if (imgSrc.startsWith('data:')) {
+              try {
+                  localStorage.setItem("accfinsys_founder_photo", imgSrc);
+              } catch (e) {
+                  console.error("Failed to save image to local storage", e);
+              }
+          }
+        }, [imgSrc]);
+
+        const handleImageUpload = (e) => {
+          const file = e.target.files?.[0];
+          if (file) {
+            if (file.size > 3 * 1024 * 1024) {
+                alert("The selected image is too large to save permanently. Please select an image under 3MB.");
+                return;
+            }
+
+            const reader = new FileReader();
+            reader.onloadend = () => {
+              const result = reader.result;
+              setImgSrc(result);
+              setImgError(false);
+            };
+            reader.readAsDataURL(file);
+          }
+        };
+
+        const handleClearPhoto = () => {
+            if (confirm("Are you sure you want to remove the saved photo and revert to default?")) {
+              localStorage.removeItem("accfinsys_founder_photo");
+              setImgSrc("SarveshPhoto.png");
+              setImgError(false); 
+            }
+        };
+
+        return (
+          <section id="about" className="py-20 md:py-32 bg-light relative overflow-hidden">
+            <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+              
+              <div className="text-center mb-16">
+                <motion.h2 
+                  initial={{ opacity: 0, y: 20 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  viewport={{ once: true }}
+                  className="text-3xl md:text-4xl font-bold text-navy font-display mb-4 relative inline-block"
+                >
+                  About the Founder
+                  <div className="absolute -bottom-2 left-1/2 transform -translate-x-1/2 w-20 h-1 bg-teal rounded-full"></div>
+                </motion.h2>
+              </div>
+
+              <div className="flex flex-col lg:flex-row gap-12 lg:gap-20 items-start">
+                  
+                  <motion.div 
+                      initial={{ opacity: 0, x: -20 }}
+                      whileInView={{ opacity: 1, x: 0 }}
+                      viewport={{ once: true }}
+                      className="flex-1 lg:w-1/2"
+                  >
+                      <div className="space-y-6 text-gray-600 text-lg leading-relaxed text-justify">
+                          <p>
+                              Sarvesh KP, recognized as an exemplary Finance Leader, brings over 30 years of global experience steering Financial Strategy across VC-funded Startups to Large-scale Listed companies across Manufacturing, FMCG, IT (Services & Products), BPO and GCC sectors—by building modern finance functions in high-growth environments.
+                          </p>
+                          <p>
+                              He founded this consultancy to deliver C-Suite-caliber Financial Infrastructure for Startups, SMEs, and Mid-sized Enterprises through Value-based Advisory, Fractional CFO leadership, and Modern Team-building Techniques — Empowering to evolve beyond numbers and compliance into a Strategic Growth driver fuelled by Continuous Improvement.
+                          </p>
+                      </div>
+
+                      <div className="mt-8 p-6 bg-white rounded-xl shadow-sm border-l-4 border-teal italic text-gray-700">
+                          <h4 className="font-bold text-navy flex items-center gap-2 mb-2 not-italic">
+                              <Mic className="w-5 h-5 text-teal" />
+                              Strategic Advisor & Industry Voice
+                          </h4>
+                          <p>
+                              "Beyond his corporate roles, Sarvesh is a 2024 CFO100 Award winner and a sought-after Guest Speaker and Panellist for prestigious forums including CFO India, Oracle and ACCA."
+                          </p>
+                      </div>
+                  </motion.div>
+
+                  <motion.div 
+                      initial={{ opacity: 0, x: 20 }}
+                      whileInView={{ opacity: 1, x: 0 }}
+                      viewport={{ once: true }}
+                      transition={{ delay: 0.2 }}
+                      className="flex-1 w-full lg:w-1/2"
+                  >
+                      <div className="flex flex-col items-center text-center mb-10">
+                          <div className="relative w-64 h-64 md:w-72 md:h-72 mb-4 rounded-2xl overflow-hidden shadow-2xl border-4 border-white bg-gray-100 flex items-center justify-center group">
+                               {!imgError ? (
+                                  <img 
+                                      src={imgSrc} 
+                                      alt="Sarvesh KP" 
+                                      className="w-full h-full object-cover object-top transition-transform duration-300"
+                                      onError={() => setImgError(true)}
+                                  />
+                              ) : (
+                                  <div className="absolute inset-0 flex flex-col items-center justify-center bg-slate-100 text-slate-500 p-6 text-center">
+                                      <div className="w-16 h-16 mb-3 bg-slate-200 rounded-full flex items-center justify-center">
+                                          <User className="w-8 h-8 text-slate-400" />
+                                      </div>
+                                      <h5 className="text-navy font-bold text-sm mb-1">Photo Not Found</h5>
+                                      <p className="text-xs text-slate-500 mb-4">
+                                         Could not auto-load "SarveshPhoto.png"
+                                      </p>
+                                      
+                                      <label className="cursor-pointer bg-teal hover:bg-teal/90 text-white text-xs font-bold py-2 px-5 rounded-full flex items-center gap-2 transition-colors shadow-sm ring-2 ring-offset-2 ring-teal/50">
+                                          <Upload className="w-3 h-3" />
+                                          Upload Photo
+                                          <input 
+                                              type="file" 
+                                              accept="image/*" 
+                                              className="hidden" 
+                                              onChange={handleImageUpload}
+                                          />
+                                      </label>
+                                  </div>
+                              )}
+                          </div>
+
+                          {imgSrc.startsWith('data:') && (
+                              <div className="flex flex-col items-center gap-2 mb-6 bg-white p-3 rounded-lg shadow-sm border border-gray-100">
+                                  <button 
+                                      onClick={handleClearPhoto}
+                                      className="flex items-center gap-1.5 px-3 py-1.5 text-xs font-medium text-red-600 bg-red-50 hover:bg-red-100 rounded-md transition-colors"
+                                      title="Remove Saved Photo"
+                                  >
+                                      <Trash2 className="w-3.5 h-3.5" />
+                                      Clear Custom Photo
+                                  </button>
+                              </div>
+                          )}
+
+                          <div className="flex items-center gap-2 mb-3 bg-teal/10 px-4 py-1.5 rounded-full">
+                              <Award className="w-4 h-4 text-teal" />
+                              <span className="text-teal font-bold uppercase tracking-wider text-xs">CFO100 Award Winner 2024</span>
+                          </div>
+
+                          <h3 className="text-3xl font-bold text-navy font-display mb-1">
+                              Sarvesh KP
+                          </h3>
+                          <span className="text-gray-500 text-xl font-normal">Founder</span>
+                      </div>
+
+                      <div className="w-full">
+                          <h4 className="text-2xl font-bold text-navy font-display mb-6 flex items-center justify-center lg:justify-start gap-3">
+                              <TrendingUp className="w-6 h-6 text-teal" />
+                              A Legacy of Scaling & Transformation
+                          </h4>
+                          
+                          <p className="text-gray-600 mb-6 text-lg leading-relaxed text-justify">
+                              Throughout his career, Sarvesh has been a catalyst for exponential growth and operational excellence:
+                          </p>
+
+                          <div className="space-y-3">
+                              <p className="text-gray-600 text-lg leading-snug text-justify">
+                                  <span className="font-bold text-navy text-xl">Massive Scalability</span> - Successfully guided companies through journeys from $50 Million to $1 Billion in revenue.
+                              </p>
+
+                              <p className="text-gray-600 text-lg leading-snug text-justify">
+                                  <span className="font-bold text-navy text-xl">Profitability</span> - Guided company to improve EBITDA from 12% to 25% and maintained it steadily over a period of 5 years with no compromise in Quality.
+                              </p>
+                              
+                              <p className="text-gray-600 text-lg leading-snug text-justify">
+                                  <span className="font-bold text-navy text-xl">Workforce Leadership</span> - Expertly managed the financial systems and infrastructure required to scale organizations from inception to over 3,000+ employees in less than three years.
+                              </p>
+
+                              <p className="text-gray-600 text-lg leading-snug text-justify">
+                                  <span className="font-bold text-navy text-xl">Digital Innovation</span> - A staunch advocate for digital transformation, specializing in ERP implementations, RPA, and automations to transform manual processes into future-ready functions.
+                              </p>
+
+                              <p className="text-gray-600 text-lg leading-snug text-justify">
+                                  <span className="font-bold text-navy text-xl">Holistic Business Leadership</span> - Proven capabilities spanning HR, IT, Legal, Admin, CSR, and other Business areas.
+                              </p>
+
+                              <p className="text-gray-600 text-lg leading-snug text-justify">
+                                  <span className="font-bold text-navy text-xl">Global Footprint</span> - Executed high-level strategic assignments across the USA, Europe, and Asia, bringing a sophisticated, cross-border perspective to global business challenges.
+                              </p>
+                          </div>
+                      </div>
+                  </motion.div>
+              </div>
+            </div>
+          </section>
+        );
+      };
+
+      // 8. CTASection Component
+      const CTASection = () => {
+        const scrollToContact = (e) => {
+          e.preventDefault();
+          const element = document.getElementById('contact');
+          if (element) {
+            const headerOffset = 100;
+            const elementPosition = element.getBoundingClientRect().top;
+            const offsetPosition = elementPosition + window.scrollY - headerOffset;
+
+            window.scrollTo({
+              top: offsetPosition,
+              behavior: 'smooth'
+            });
+          }
+        };
+
+        return (
+          <section className="py-24 bg-navy relative overflow-hidden">
+            <div className="absolute top-0 left-0 w-full h-full overflow-hidden pointer-events-none">
+              <div className="absolute -top-24 -left-24 w-64 h-64 bg-teal/20 rounded-full mix-blend-screen blur-3xl"></div>
+              <div className="absolute -bottom-24 -right-24 w-96 h-96 bg-purple/20 rounded-full mix-blend-screen blur-3xl"></div>
+            </div>
+
+            <div className="max-w-6xl mx-auto px-4 text-center relative z-10">
+              <motion.h2 
+                initial={{ opacity: 0, scale: 0.95 }}
+                whileInView={{ opacity: 1, scale: 1 }}
+                viewport={{ once: true }}
+                className="text-3xl md:text-5xl font-bold text-white mb-6 font-display"
+              >
+                Ready to Transform Your Finance Function?
+              </motion.h2>
+              
+              <motion.p 
+                initial={{ opacity: 0 }}
+                whileInView={{ opacity: 1 }}
+                viewport={{ once: true }}
+                transition={{ delay: 0.2 }}
+                className="text-2xl text-white/90 mb-10 leading-relaxed"
+              >
+                The Bottom Line: We bridge the gap between Finance Execution and Boardroom Strategy, allowing you to Focus on what you do best—Growing your Business.
+              </motion.p>
+              
+              <motion.div
+                 initial={{ opacity: 0, y: 20 }}
+                 whileInView={{ opacity: 1, y: 0 }}
+                 viewport={{ once: true }}
+                 transition={{ delay: 0.4 }}
+              >
+                <a 
+                  href="#contact"
+                  onClick={scrollToContact}
+                  className="bg-teal hover:bg-teal/90 text-navy font-bold text-xl px-10 py-5 rounded-full shadow-[0_0_20px_rgba(59,206,172,0.3)] hover:shadow-[0_0_30px_rgba(59,206,172,0.5)] hover:scale-105 transition-all duration-300 inline-block cursor-pointer"
+                >
+                  Contact
+                </a>
+              </motion.div>
+            </div>
+          </section>
+        );
+      };
+
+      // 9. Footer Component
+      const FooterLogoIcon = ({ color }) => (
+        <svg width="56" height="56" viewBox="0 0 100 100" fill="none" stroke={color} strokeWidth="4" strokeLinecap="round" strokeLinejoin="round">
+           <path d="M12 25 V75 L18 85 L24 75 V25 Z" />
+           <path d="M35 15 H85 V85 H75" opacity="0.6" />
+           <rect x="28" y="20" width="55" height="70" rx="2" fill="none" />
+           <circle cx="55" cy="45" r="12" />
+           <path d="M55 45 L55 33" />
+           <path d="M55 45 L65 50" />
+           <path d="M40 65 H55" />
+           <rect x="62" y="60" width="28" height="35" rx="4" fill="none" />
+           <path d="M68 68 H84" />
+           <circle cx="70" cy="78" r="2" fill={color} stroke="none" />
+           <circle cx="76" cy="78" r="2" fill={color} stroke="none" />
+           <circle cx="82" cy="78" r="2" fill={color} stroke="none" />
+           <circle cx="70" cy="86" r="2" fill={color} stroke="none" />
+           <circle cx="76" cy="86" r="2" fill={color} stroke="none" />
+           <circle cx="82" cy="86" r="2" fill={color} stroke="none" />
+        </svg>
+      );
+
+      const Footer = () => {
+        const quickLinks = [
+          { name: 'Home', href: '#' },
+          { name: 'About Us', href: '#about' },
+          { name: 'Why AccFinSys?', href: '#why-accfinsys' },
+          { name: 'Services', href: '#services' },
+          { name: 'Industries', href: '#industries' },
+        ];
+
+        const handleNavClick = (e, href) => {
+          e.preventDefault();
+          
+          // Check for Home link ('#')
+          if (href === '#') {
+             window.scrollTo({
+               top: 0,
+               behavior: 'smooth'
+             });
+             return;
+          }
+
+          const targetId = href.replace('#', '');
+          const element = document.getElementById(targetId);
+          
+          if (element) {
+            const headerOffset = 100;
+            const elementPosition = element.getBoundingClientRect().top;
+            const offsetPosition = elementPosition + window.scrollY - headerOffset;
+
+            window.scrollTo({
+              top: offsetPosition,
+              behavior: 'smooth'
+            });
+          } else {
+              window.location.hash = href;
+          }
+        };
+
+        return (
+          <footer id="contact" className="bg-dark text-white pt-16 pb-8">
+            <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+              <div className="flex flex-col md:flex-row justify-between items-start gap-8 mb-12">
+                
+                {/* Column 1: Company Info */}
+                <div className="space-y-6 md:w-5/12">
+                  <div className="flex items-center gap-3">
+                      <FooterLogoIcon color="white" />
+                     <div className="flex flex-col items-start justify-center">
+                      <span className="text-4xl font-serif font-bold leading-none tracking-tight text-white">
+                          AccFinSys
+                      </span>
+                      <div className="relative mt-1">
+                         <svg width="100%" height="8" viewBox="0 0 120 10" preserveAspectRatio="none" className="absolute -top-1 left-0 w-full opacity-70">
+                             <path d="M0 5 Q 60 0 120 5" fill="none" stroke="#3BCEAC" strokeWidth="1" />
+                         </svg>
+                         <span className="text-xs font-handwriting font-bold tracking-widest uppercase text-gray-300 whitespace-nowrap">
+                         We are part of your journey
+                         </span>
+                      </div>
+                    </div>
+                  </div>
+                  <p className="text-gray-400 text-base mt-4">
+                    Your trusted partner for global accounting, strategic finance, and automated workflows.
+                  </p>
+                  <div className="flex space-x-4">
+                    <a href="#" className="w-10 h-10 rounded-full bg-white/5 flex items-center justify-center hover:bg-teal hover:text-navy transition-colors">
+                      <Linkedin className="w-5 h-5" />
+                    </a>
+                    <a href="mailto:Sarvesh@AccFinSys.com" className="w-10 h-10 rounded-full bg-white/5 flex items-center justify-center hover:bg-teal hover:text-navy transition-colors">
+                      <Mail className="w-5 h-5" />
+                    </a>
+                  </div>
+                </div>
+
+                {/* Column 2: Quick Links */}
+                <div className="md:w-3/12 lg:w-2/12">
+                  <h3 className="text-xl font-bold mb-6 font-display">Quick Links</h3>
+                  <ul className="space-y-4 text-lg">
+                    {quickLinks.map((link) => (
+                      <li key={link.name}>
+                        <a 
+                          href={link.href}
+                          onClick={(e) => handleNavClick(e, link.href)}
+                          className="text-gray-400 hover:text-teal transition-colors inline-block transform hover:translate-x-1 duration-200"
+                        >
+                          {link.name}
+                        </a>
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+
+                {/* Column 3: Contact Info */}
+                <div className="md:w-4/12">
+                  <h3 className="text-xl font-bold mb-6 font-display">Contact</h3>
+                  <ul className="space-y-4 text-gray-400 text-lg">
+                    <li className="flex flex-col gap-1">
+                       <span className="text-gray-400 font-bold text-lg whitespace-nowrap md:whitespace-normal xl:whitespace-nowrap">AccFinSys Consulting Services LLP</span>
+                       <span className="text-white font-bold text-lg mt-1">Sarvesh KP</span>
+                       <span className="text-sm uppercase tracking-wide text-teal">Founder & Advisor</span>
+                    </li>
+                    
+                    <li className="flex items-center gap-3 mt-4">
+                      <Mail className="w-6 h-6 text-teal shrink-0" />
+                      <a href="mailto:Sarvesh@AccFinSys.com" className="hover:text-white transition-colors">Sarvesh@AccFinSys.com</a>
+                    </li>
+                    
+                    <li className="flex items-center gap-3">
+                       <Phone className="w-6 h-6 text-teal shrink-0" />
+                       <a href="tel:+919108216069" className="hover:text-white transition-colors">+91 91082 16069</a>
+                    </li>
+
+                    <li className="flex items-start gap-3">
+                      <MapPin className="w-6 h-6 text-teal shrink-0 mt-1" />
+                      <a 
+                          href="https://www.google.com/maps/search/?api=1&query=No.+18,+4+Main,+Ramamohanpuram,+Malleshwaram,+Bengaluru+-+560021" 
+                          target="_blank" 
+                          rel="noopener noreferrer"
+                          className="hover:text-white transition-colors leading-relaxed"
+                      >
+                        No. 18, 4 Main, Ramamohanpuram,<br/>
+                        Malleshwaram, Bengaluru - 560021
+                      </a>
+                    </li>
+                  </ul>
+                </div>
+              </div>
+
+              {/* Bottom Bar */}
+              <div className="border-t border-white/10 pt-8 flex flex-col md:flex-row justify-between items-center text-base text-gray-500">
+                <p>&copy; {new Date().getFullYear()} AccFinSys Consulting Services LLP. All rights reserved.</p>
+                <div className="flex space-x-6 mt-4 md:mt-0">
+                  <a href="#" className="hover:text-white transition-colors">Privacy Policy</a>
+                  <a href="#" className="hover:text-white transition-colors">Terms of Service</a>
+                </div>
+              </div>
+            </div>
+          </footer>
+        );
+      };
+
+      // --- APP COMPONENT ---
+      const App = () => {
+        return (
+          <div className="bg-white min-h-screen">
+            <Header />
+            <main>
+              <Hero />
+              <Stats />
+              <Services />
+              <WhyChooseUs />
+              <Industries />
+              <About />
+              <CTASection />
+            </main>
+            <Footer />
+          </div>
+        );
+      };
+
+      // --- RENDER ---
+      const rootElement = document.getElementById('root');
+      if (rootElement) {
+        const root = ReactDOM.createRoot(rootElement);
+        root.render(
+          <React.StrictMode>
+            <App />
+          </React.StrictMode>
+        );
+      }
+    </script>
+  </body>
+</html>
